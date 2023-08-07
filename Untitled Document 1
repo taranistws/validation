@@ -1,0 +1,13 @@
+theme-options.php on wp content/theme/inc
+
+and in function.php include 
+
+require_once ( get_stylesheet_directory() . '/inc/theme-options.php' );
+
+
+for show theme option on the website 
+
+
+<?php echo get_option('web_phone_no'); ?>
+
+<div class="logo"><a href="<?php echo site_url() ?>"><img src="<?php echo get_option('logo'); ?>" alt=""></a></div>
