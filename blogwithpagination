@@ -1,0 +1,45 @@
+        <?php
+$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+$loop = new WP_Query( array( 'cat' => 2,
+        'posts_per_page' => 10,
+        'paged'          => $paged )
+);
+
+//print_r($loop);
+if ( $loop->have_posts() ):
+    while ( $loop->have_posts() ) : $loop->the_post(); 
+
+$author_id=$post->post_author;
+$postid=$post->ID;
+$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), "thumbnail" );
+    	?>
+  <div class="blog-list">
+
+            <div class="row">
+              <div class="col-md-4">
+                <a href="<?php echo get_permalink($postid); ?>" class="thumbnail">
+                    <img src="<?php echo  $thumbnail[0]; ?>" alt="<?php the_title() ?>">
+                </a>
+              </div>
+              <div class="col-md-8">
+                
+                <h2><a href="<?php echo get_permalink($postid); ?>"><?php the_title() ?></a></h2>
+                <div class="date-time">                  
+                  <span><i class="fa fa-user"></i> by <?php  the_author_meta( 'user_nicename' , $author_id ); ?></span>
+                  | <span><i class="fa fa-calendar"></i><?php echo get_the_date(); ?></span>
+                </div>
+                <p>
+                  <?php echo wp_trim_words( get_the_content(), 40, '...' ); ?>
+                </p>
+                <div class="read-more">
+                  <a href="<?php echo get_permalink($postid); ?>">Read more</a>
+                </div>
+              </div>  
+            </div>
+            </div>  
+ <?php endwhile; ?>
+    <nav class="pagination">
+        <?php pagination_bar( $loop ); ?>
+    </nav>
+<?php wp_reset_postdata();
+endif; ?>
