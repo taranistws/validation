@@ -1,0 +1,44 @@
+header 
+const {
+    uploadImagesS3
+} = require("../../../helper/comFunction");
+
+
+var uploadImagesS3 = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: config.s3.bucket,
+        acl: 'public-read',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        serverSideEncryption: 'AES256',
+        key: function(req, file, cb) {
+            //cb(null,Date.now() + path.extname(file.originalname));
+            cb(null, Date.now() + '.png');
+        }
+    })
+})
+
+const aws = require('aws-sdk')
+const multerS3 = require('multer-s3');
+const request = require('request');
+const multer = require("multer");
+
+var s3 = new aws.S3({
+    Bucket: config.s3.bucket,
+    accessKeyId: config.s3.accessKeyId,
+    secretAccessKey: config.s3.secretAccessKey,
+})
+
+
+
+baseUrlRoutes.post("/adddd", uploadImagesS3.fields([{
+    name: 'whitelogo',
+    maxCount: 1
+}, {
+    name: 'blacklogo',
+    maxCount: 1
+}]), addddddd);
+
+
+...(req.files && req.files.customerSign && req.files.customerSign.length) && { customerSign: req.files.customerSign[0].location },
+...(req.files && req.files.customerPic && req.files.customerPic.length) && { customerPic: req.files.customerPic[0].location },
